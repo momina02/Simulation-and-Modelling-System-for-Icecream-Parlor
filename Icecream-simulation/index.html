@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operations Research Project</title>
+  <link href="/dist/output.css" rel="stylesheet">
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.2.0/math.js'></script>
+  <script type="module" src="queuingModels.js" defer></script>
+  <script src="simulation.js" defer></script>
+  <style>
+    .icon {
+      width: 50px;
+      height: 50px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 10px; 
+    }
+  
+    .heading {
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 20px; 
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100" style="background-color: #E1ECC8;">
+  <div class="container mx-auto py-8 px-4">
+    <img src="ice-cream.png" alt="Icon" class="icon">
+    <h1 class="text-2xl font-bold mb-4"><center>Icre Cream Parlor (Queuing Model & Simulation)</center></h1>
+    <!-- Queuing Models -->
+    <div class="rounded-lg shadow-md p-4 mb-8" style="background-color: #C4D7B2;">
+      <h2 class="text-lg font-semibold mb-4">Queuing Models</h2>
+      <ul class="flex justify-center">
+        <li class="px-4 py-1"><button id="mm1" class="font-medium hover:border-b hover:border-black focus:border-b focus:border-black">M/M/1</button></li>
+        <li class="px-4 py-1"><button id="mm2" class="font-medium hover:border-b hover:border-black focus:border-b focus:border-black">M/M/2</button></li>
+        <li class="px-4 py-1"><button id="mg1" class="font-medium hover:border-b hover:border-black focus:border-b focus:border-black">M/G/1</button></li>
+        <li class="px-4 py-1"><button id="mg2" class="font-medium hover:border-b hover:border-black focus:border-b focus:border-black">M/G/2</button></li>
+        <li class="px-4 py-1"><button id="gg1" class="font-medium hover:border-b hover:border-black focus:border-b focus:border-black">G/G/1</button></li>
+        <li class="px-4 py-1"><button id="gg2" class="font-medium hover:border-b hover:border-black focus:border-b focus:border-black">G/G/2</button></li>
+      </ul>
+      <div class="my-8 flex justify-around xl:w-1/2 lg:w-11/12 mx-auto">
+        <div class="border-r border-black w-2/4">
+          <input type="text" id="lambda" placeholder="lambda" class="p-2 border border-black w-3/4 rounded-xl mb-4"/>
+          <input type="text" id="mew" placeholder="mew" class="p-2 border border-black w-3/4 rounded-xl mb-4"/>
+          <input type="text" id="max" placeholder="maximum" class="p-2 border border-black w-3/4 rounded-xl mb-4"/>
+          <input type="text" id="min" placeholder="minimum" class="p-2 border border-black w-3/4 rounded-xl mb-4"/>
+          <input type="text" id="mean-1" placeholder="Mean" class="p-2 border border-black w-3/4 rounded-xl mb-4"/>
+          <input type="text" id="variance-1" placeholder="Variance" class="p-2 border border-black w-3/4 rounded-xl mb-4"/>
+          <input type="text" id="mean-2" placeholder="Mean" class="p-2 border border-black w-3/4 rounded-xl mb-4"/>
+          <input type="text" id="variance-2" placeholder="Variance" class="p-2 border border-black w-3/4 rounded-xl mb-4"/>
+          
+          <button id="calculate" class="rounded-xl bg-gray-500 text-white font-medium p-2 w-3/4" style="background-color: #609966;">Calculate</button>
+        </div>
+        <div>
+          <p id="Utilization" class="text-lg font-medium">Utilization Rate : </p>
+          <p id="queue-length-system" class="text-lg font-medium">AverageQueueLength(System) : </p>
+          <p id="queue-length-queue" class="text-lg font-medium">AverageQueueLength(Queue) : </p>
+          <p id="waiting-time-system" class="text-lg font-medium">AverageWaitingTime(System) : </p>
+          <p id="waiting-time-queue" class="text-lg font-medium">AverageWaitingTime(System) : </p>
+        </div>
+      </div>
+
+    </div>
+    <!-- Simulation -->
+    <div class="rounded-lg shadow-md p-4 mb-8" style="background-color: #C4D7B2;">
+      <h2 class="text-lg font-semibold mb-4">Random Number Simulator</h2>
+      <ul class="flex justify-center">
+        <li class="px-4 py-1"><button id="mm1s" class="font-medium hover:border-b hover:border-black focus:border-b focus:border-black">M/M/1</button></li>
+        <li class="px-4 py-1"><button id="mm2s" class="font-medium hover:border-b hover:border-black focus:border-b focus:border-black">M/M/2</button></li>
+        <li class="px-4 py-1"><button id="mg1s" disabled="true" class="font-medium hover:border-b hover:border-black focus:border-b focus:border-black">M/G/1</button></li>
+        <li class="px-4 py-1"><button id="mg2s" disabled="true" class="font-medium hover:border-b hover:border-black focus:border-b focus:border-black">M/G/2</button></li>
+        <li class="px-4 py-1"><button id="gg1s" disabled="true" class="font-medium hover:border-b hover:border-black focus:border-b focus:border-black">G/G/1</button></li>
+        <li class="px-4 py-1"><button id="gg2s" disabled="true" class="font-medium hover:border-b hover:border-black focus:border-b focus:border-black">G/G/2</button></li>
+      </ul>
+      <div class="my-8 text-lg font-medium w-11/12 mx-auto">
+        <p id="mm-text">Arrival time follows poisson Distribution, Service time follows Exponential Distribution</p>
+        <p id="mg-text">Arrival time follows Exponential Distribution, Service time follows Uniform Distribution</p>
+        <p id="gg-text">Arrival time follows gamma Distribution, Service time follows normal Distribution</p>
+      </div>
+      <div class="my-8 w-11/12 mx-auto">
+        <div class="flex">
+          <input type="text" id="lambdas" placeholder="mean arrival rate" class="p-2 border border-black w-1/4 rounded-xl mb-4 ml-4"/>
+          <input type="text" id="mews" placeholder="mean service rate" class="p-2 border border-black w-1/4 rounded-xl mb-4 ml-4"/>
+          <input type="text" id="maxs" placeholder="maximum service time" class="p-2 border border-black w-1/4 rounded-xl mb-4 ml-4"/>
+          <input type="text" id="mins" placeholder="minimum service time" class="p-2 border border-black w-1/4 rounded-xl mb-4 ml-4"/>
+          <input type="text" id="mean-1s" placeholder="Mean" class="p-2 border border-black w-1/4 rounded-xl mb-4 ml-4"/>
+          <input type="text" id="variance-1s" placeholder="Variance" class="p-2 border border-black w-1/4 rounded-xl mb-4 ml-4"/>
+          <input type="text" id="mean-2s" placeholder="Mean" class="p-2 border border-black w-1/4 rounded-xl mb-4 ml-4"/>
+          <input type="text" id="variance-2s" placeholder="Variance" class="p-2 border border-black w-1/4 rounded-xl mb-4 ml-4"/>
+          <input type="text" id="random-no" placeholder="random numbers" class="p-2 border border-black w-1/4 rounded-xl mb-4 ml-4"/>
+        </div>
+        <button id="calculates" class="rounded-xl bg-gray-500 text-white font-medium p-2 w-1/4 ml-4" style="background-color: #609966;">Calculate</button>
+        <div id="table-1" class="container mx-auto mt-12">
+          <table class="min-w-full">
+            <thead>
+              <tr>
+                <th class="py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">Arrival Time</th>
+                <th class="pri-server py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">Start Time</th>
+                <th class="pri-server py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">End Time</th>
+                <th class="pri-server py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">Service Time</th>
+                <th class="py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">Turnaround Time</th>
+                <th class="py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">Wait Time</th>
+                <th class="py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">Response Time</th>
+              </tr>
+            </thead>
+            <tbody class="t-body-1">
+            </tbody>
+          </table>
+        </div>
+        <div id="table-2" class="container mx-auto mt-12">
+          <table class="min-w-full">
+            <thead>
+              <tr>
+                <th class="px-6 py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">Arrival Time</th>
+                <th class="pri-server px-6 py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">Start Time</th>
+                <th class="pri-server px-6 py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">End Time</th>
+                <th class="pri-server px-6 py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">Server</th>
+                <th class="pri-server px-6 py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">Service Time</th>
+                <th class="px-6 py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">Turnaround Time</th>
+                <th class="px-6 py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">Wait Time</th>
+                <th class="px-6 py-3 bg-gray-200 text-gray-600 font-bold uppercase text-sm">Response Time</th>
+              </tr>
+            </thead>
+            <tbody class="t-body-2">
+            </tbody>
+          </table>
+        </div>
+        <p id="util">Server Utilization: </p>
+    </div>
+</body>
+</html>
